@@ -1,39 +1,71 @@
 const assert = require('assert');
-const { readFileSync } = require('fs');
+const fs = require('fs');
+const path = require('path');
 const pretty = require('pretty');
 const anygineLoader = require('..');
 const Handlebars = require('handlebars');
+const frontmatter = require('frontmatter');
+
+const readFileSync = (file, prettify = false) => {
+  const source = fs.readFileSync(file, 'utf-8');
+
+  return prettify ? pretty(source, {
+    ocd: true
+  }) : source;
+};
 
 describe('anygine-loader', () => {
-  const resourcePath = 'fixtures/test.hbs';
-  const createContext = (options = {}, callback) => ({
+  const createContext = (resourcePath, options = {}, callback) => ({
     context: 'fixtures',
-    query: options,
+    query: {
+      runtime: Handlebars,
+      ...options
+    },
     resourcePath,
     cacheable: () => {},
     addDependency: () => {},
     async: () => callback
   });
 
-  let expected;
-  let source;
-
-  beforeEach(() => {
-    source = readFileSync(resourcePath, 'utf-8');
-    expected = pretty(readFileSync('expected/test.html', 'utf-8'), {
-      ocd: true
-    });
-  });
-
-  it('renders the template', (done) => {
-    const actual = anygineLoader.call(createContext({
-      runtime: Handlebars,
+  it('renders basic template', (done) => {
+    const expected = readFileSync('expected/basic.html', true);
+    const source = readFileSync('fixtures/basic.hbs');
+    const context = createContext('fixtures/basic.hbs', {
       data: {
         title: 'Foo'
       }
     }, (err, actual) => {
       assert.equal(actual, expected);
       done();
-    }), source);
+    });
+
+    anygineLoader.call(context, source);
+  });
+
+  it('renders advanced template', (done) => {
+    const expected = readFileSync('expected/advanced.html', true);
+    const source = readFileSync('fixtures/advanced.hbs');
+    const context = createContext('fixtures/advanced.hbs', {
+      data: path.join(__dirname, 'fixtures', 'data')
+    }, (err, actual) => {
+      assert.equal(actual, expected);
+      done();
+    });
+
+    anygineLoader.call(context, source);
+  });
+
+  it('renders template with middleware', (done) => {
+    const expected = readFileSync('expected/middleware.html', true);
+    const source = readFileSync('fixtures/middleware.hbs');
+    const context = createContext('fixtures/middleware.hbs', {
+      use: [ frontmatter ],
+      data: path.join(__dirname, 'fixtures', 'data')
+    }, (err, actual) => {
+      assert.equal(actual, expected);
+      done();
+    });
+
+    anygineLoader.call(context, source);
   });
 });
