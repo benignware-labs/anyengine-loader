@@ -1,14 +1,9 @@
 const path = require('path');
-const { sync: glob } = require('glob');
-const webpack = require('webpack');
 
 module.exports = [{
   mode: 'development',
-
-  context: path.join(__dirname, 'src'),
-
+  context: path.resolve('src'),
   entry: './index.hbs',
-
   module: {
     rules: [{
       test: /\.(hbs)/,
@@ -27,13 +22,11 @@ module.exports = [{
       }]
     }]
   },
-
   devServer: {
     index: 'index.html',
     port: 9191,
     open: true
   },
-
   resolveLoader: {
     alias: {
       "anyengine-loader": path.join(__dirname, '..')
