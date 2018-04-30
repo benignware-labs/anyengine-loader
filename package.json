@@ -1,7 +1,7 @@
 {
-  "name": "anygine-loader",
+  "name": "anyengine-loader",
   "version": "0.0.1",
-  "description": "Anygine webpack loader",
+  "description": "Anyengine webpack loader",
   "main": "index.js",
   "scripts": {
     "test": "cd test && mocha .",
@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "anygine": "git+http://github.com/benignware-labs/anygine.git",
+    "anyengine": "git+http://github.com/benignware-labs/anyengine.git",
     "ext-name": "^5.0.0",
     "glob": "^7.1.2",
     "isbinaryfile": "^3.0.2",

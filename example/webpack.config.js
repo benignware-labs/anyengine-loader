@@ -19,10 +19,9 @@ module.exports = [{
           emitFile: true
         }
       }, {
-        loader: 'anygine-loader',
+        loader: 'anyengine-loader',
         options: {
           data: 'data',
-          runtime: 'handlebars',
           use: [ 'frontmatter' ]
         }
       }]
@@ -37,7 +36,7 @@ module.exports = [{
 
   resolveLoader: {
     alias: {
-      "anygine-loader": path.join(__dirname, '..')
+      "anyengine-loader": path.join(__dirname, '..')
     }
   }
 }];

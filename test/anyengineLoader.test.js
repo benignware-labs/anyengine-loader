@@ -2,9 +2,8 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const pretty = require('pretty');
-const anygineLoader = require('..');
+const anyengineLoader = require('..');
 const Handlebars = require('handlebars');
-const frontmatter = require('frontmatter');
 
 const readFileSync = (file, prettify = false) => {
   const source = fs.readFileSync(file, 'utf-8');
@@ -14,7 +13,7 @@ const readFileSync = (file, prettify = false) => {
   }) : source;
 };
 
-describe('anygine-loader', () => {
+describe('anyengineLoader', () => {
   const createContext = (resourcePath, options = {}, callback) => ({
     context: 'fixtures',
     query: {
@@ -39,7 +38,7 @@ describe('anygine-loader', () => {
       done();
     });
 
-    anygineLoader.call(context, source);
+    anyengineLoader.call(context, source);
   });
 
   it('renders advanced template', (done) => {
@@ -52,20 +51,20 @@ describe('anygine-loader', () => {
       done();
     });
 
-    anygineLoader.call(context, source);
+    anyengineLoader.call(context, source);
   });
 
   it('renders template with middleware', (done) => {
     const expected = readFileSync('expected/middleware.html', true);
     const source = readFileSync('fixtures/middleware.hbs');
     const context = createContext('fixtures/middleware.hbs', {
-      use: [ frontmatter ],
+      use: [ 'frontmatter' ],
       data: path.join(__dirname, 'fixtures', 'data')
     }, (err, actual) => {
       assert.equal(actual, expected);
       done();
     });
 
-    anygineLoader.call(context, source);
+    anyengineLoader.call(context, source);
   });
 });
