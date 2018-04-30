@@ -13,12 +13,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "anyengine": "git+http://github.com/benignware-labs/anyengine.git",
     "ext-name": "^5.0.0",
     "glob": "^7.1.2",
     "isbinaryfile": "^3.0.2",
     "loader-utils": "^1.1.0",
     "object-path": "^0.11.4"
+  },
+  "peerDependencies": {
+    "anyengine": "git+http://github.com/benignware-labs/anyengine.git"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
